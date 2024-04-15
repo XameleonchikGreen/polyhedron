@@ -17,3 +17,5 @@ find . -name '*.py' -exec pycodestyle {} \;
 ~~~{.sh}
 python -B -m coverage run -m unittest discover tests && coverage report -m ; rm -f .coverage
 ~~~
+
+Now it's mine!
