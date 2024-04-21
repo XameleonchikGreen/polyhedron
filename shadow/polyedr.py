@@ -174,6 +174,22 @@ class Polyedr:
                 edges.append(e)
         self.edges = edges
 
+    def task69(self):
+        self.edges_uniq()
+        for e in self.edges:
+            for f in self.facets:
+                e.shadow(f)
+
+            center_point = (e.beg + e.fin) * 0.5
+            if center_point.x ** 2 + center_point.y ** 2 < (self.c * 2) ** 2:
+                if len(e.gaps) > 1:
+                    self.sigma += sqrt((e.fin - e.beg).dot(e.fin - e.beg)) / self.c
+                elif len(e.gaps) == 1:
+                    eps = 1e-4
+                    if (not (e.gaps[0].beg < eps and abs(e.gaps[0].fin - 1.0) < eps) and
+                            e.gaps[0].fin - e.gaps[0].beg >= eps):
+                        self.sigma += sqrt((e.fin - e.beg).dot(e.fin - e.beg)) / self.c
+
     # Метод изображения полиэдра
     def draw(self, tk):  # pragma: no cover
         tk.clean()
