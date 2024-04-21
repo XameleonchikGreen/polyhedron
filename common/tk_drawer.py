@@ -45,7 +45,8 @@ class TkDrawer:
 
     def draw_circle(self, o, r):
         self.canvas.create_oval(
-            x(o) + SCALE * r, y(o) + SCALE * r, x(o) - SCALE * r, y(o) - SCALE * r,
+            x(o) + SCALE * r, y(o) + SCALE * r,
+            x(o) - SCALE * r, y(o) - SCALE * r,
             fill="#80CBC4", outline="blue")
         self.root.update()
 

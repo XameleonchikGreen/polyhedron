@@ -183,12 +183,15 @@ class Polyedr:
             center_point = (e.beg + e.fin) * 0.5
             if center_point.x ** 2 + center_point.y ** 2 < (self.c * 2) ** 2:
                 if len(e.gaps) > 1:
-                    self.sigma += sqrt((e.fin - e.beg).dot(e.fin - e.beg)) / self.c
+                    self.sigma += sqrt((e.fin - e.beg).dot(
+                        e.fin - e.beg)) / self.c
                 elif len(e.gaps) == 1:
                     eps = 1e-4
-                    if (not (e.gaps[0].beg < eps and abs(e.gaps[0].fin - 1.0) < eps) and
+                    if (not (e.gaps[0].beg < eps and
+                             abs(e.gaps[0].fin - 1.0) < eps) and
                             e.gaps[0].fin - e.gaps[0].beg >= eps):
-                        self.sigma += sqrt((e.fin - e.beg).dot(e.fin - e.beg)) / self.c
+                        self.sigma += sqrt((e.fin - e.beg).dot(
+                            e.fin - e.beg)) / self.c
 
     # Метод изображения полиэдра
     def draw(self, tk):  # pragma: no cover
@@ -203,14 +206,19 @@ class Polyedr:
             center_point = (e.beg + e.fin) * 0.5
             if center_point.x ** 2 + center_point.y ** 2 < (self.c*2) ** 2:
                 if len(e.gaps) > 1:
-                    color = "red"       # Удовлетворяющие условию рёбра будем рисовать красным
-                    self.sigma += sqrt((e.fin - e.beg).dot(e.fin - e.beg)) / self.c
+                    # Удовлетворяющие условию рёбра будем рисовать красным
+                    color = "red"
+                    self.sigma += sqrt((e.fin - e.beg).dot(
+                        e.fin - e.beg)) / self.c
                 elif len(e.gaps) == 1:
                     eps = 1e-4
-                    if (not(e.gaps[0].beg < eps and abs(e.gaps[0].fin - 1.0) < eps) and
+                    if (not (e.gaps[0].beg < eps and
+                             abs(e.gaps[0].fin - 1.0) < eps) and
                             e.gaps[0].fin - e.gaps[0].beg >= eps):
-                        color = "red"   # Удовлетворяющие условию рёбра будем рисовать красным
-                        self.sigma += sqrt((e.fin - e.beg).dot(e.fin - e.beg)) /self.c
+                        # Удовлетворяющие условию рёбра будем рисовать красным
+                        color = "red"
+                        self.sigma += sqrt((e.fin - e.beg).dot(
+                            e.fin - e.beg)) / self.c
 
             for s in e.gaps:
                 tk.draw_line(e.r3(s.beg), e.r3(s.fin), color)
