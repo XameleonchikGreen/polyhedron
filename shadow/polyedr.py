@@ -159,12 +159,37 @@ class Polyedr:
                     # задание самой грани
                     self.facets.append(Facet(vertexes))
 
+    # Удаление дубликатов рёбер
+    def edges_uniq(self):
+        edges = []
+        for e in self.edges:
+            include = False
+            for d in edges:
+                if ((d.beg == e.beg and d.fin == e.fin) or
+                        (d.beg == e.fin and d.fin == e.beg)):
+                    include = True
+                    break
+            if not include:
+                edges.append(e)
+        self.edges = edges
+
     # Метод изображения полиэдра
     def draw(self, tk):  # pragma: no cover
         tk.clean()
         tk.draw_circle(R3(0, 0, 0), self.c*2)
+        self.edges_uniq()
         for e in self.edges:
             for f in self.facets:
                 e.shadow(f)
+
+            color = "black"
+            if len(e.gaps) > 1:
+                color = "red"       # Частично затенённые рёбра будем рисовать красным
+            elif len(e.gaps) == 1:
+                eps = 1e-4
+                if (not(e.gaps[0].beg < eps and abs(e.gaps[0].fin - 1.0) < eps) and
+                        e.gaps[0].fin - e.gaps[0].beg >= eps):
+                    color = "red"   # Частично затенённые рёбра будем рисовать красным
+
             for s in e.gaps:
-                tk.draw_line(e.r3(s.beg), e.r3(s.fin))
+                tk.draw_line(e.r3(s.beg), e.r3(s.fin), color)
