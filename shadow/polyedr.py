@@ -1,4 +1,4 @@
-from math import pi
+from math import pi, sqrt
 from functools import reduce
 from operator import add
 from common.r3 import R3
@@ -127,6 +127,7 @@ class Polyedr:
 
         # списки вершин, рёбер и граней полиэдра
         self.vertexes, self.edges, self.facets = [], [], []
+        self.sigma = 0.0
 
         # список строк файла
         with open(file) as f:
@@ -183,13 +184,17 @@ class Polyedr:
                 e.shadow(f)
 
             color = "black"
-            if len(e.gaps) > 1:
-                color = "red"       # Частично затенённые рёбра будем рисовать красным
-            elif len(e.gaps) == 1:
-                eps = 1e-4
-                if (not(e.gaps[0].beg < eps and abs(e.gaps[0].fin - 1.0) < eps) and
-                        e.gaps[0].fin - e.gaps[0].beg >= eps):
-                    color = "red"   # Частично затенённые рёбра будем рисовать красным
+            center_point = (e.beg + e.fin) * 0.5
+            if center_point.x ** 2 + center_point.y ** 2 < (self.c*2) ** 2:
+                if len(e.gaps) > 1:
+                    color = "red"       # Удовлетворяющие условию рёбра будем рисовать красным
+                    self.sigma += sqrt((e.fin - e.beg).dot(e.fin - e.beg)) / self.c
+                elif len(e.gaps) == 1:
+                    eps = 1e-4
+                    if (not(e.gaps[0].beg < eps and abs(e.gaps[0].fin - 1.0) < eps) and
+                            e.gaps[0].fin - e.gaps[0].beg >= eps):
+                        color = "red"   # Удовлетворяющие условию рёбра будем рисовать красным
+                        self.sigma += sqrt((e.fin - e.beg).dot(e.fin - e.beg)) /self.c
 
             for s in e.gaps:
                 tk.draw_line(e.r3(s.beg), e.r3(s.fin), color)
