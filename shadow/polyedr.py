@@ -162,6 +162,7 @@ class Polyedr:
     # Метод изображения полиэдра
     def draw(self, tk):  # pragma: no cover
         tk.clean()
+        tk.draw_circle(R3(0, 0, 0), 2)
         for e in self.edges:
             for f in self.facets:
                 e.shadow(f)
